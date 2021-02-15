@@ -79,6 +79,7 @@
     },
     methods: {
       // WORKING!!
+      // TODO: MAKE THIS WITH VUE EVENTS
       addTodo: function() {
         const array = this.todos;
         
@@ -92,6 +93,7 @@
       },
 
       // TODO: WORKING ON!!
+      // TODO: MAKE THIS FIRST
       updateTodo: function(index) {
         const array = this.todos;
 
