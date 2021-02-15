@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 v-on:click="changeTitle"> {{ title }} </h1>
+        <h1> {{ title }} </h1>
     </div>    
 </template>
 
@@ -12,14 +12,5 @@ export default {
             type: String
         }
     },
-    methods: {
-        changeTitle: () => {
-            this.$emit('changeTitle', 'Todo App')
-        }
-    }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,11 +1,25 @@
 <template>
 <!-- TEMPLATE FOR THE WHOLE APP -->
   <div class="container">
+    <Header 
+      :title="title" 
+    />
+    <Menu 
+      :checkedTodos="checkedTodos"
+      :addTodo="addTodo" 
+      :amountTodos="amountTodos"
+    />
+      <!-- :newTodoName="this.newTodoName" -->
+    <Todolist 
+      :todos="todos" 
 
-    <Header :title="title" v-on:changeTitle="updateTitle($event)" />
-    <Menu />
-    <Todolist :todos="todos" @click="check" />
-    <Footer :author="author" />
+      :checkTodo="checkTodo" 
+      :updateTodo="updateTodo"
+      :deleteTodo="deleteTodo" 
+    />
+    <Footer 
+      :author="author" 
+    />
 
   </div>
 </template>
@@ -26,68 +40,98 @@
     },
     data () {
       return {
+        // APPLICATION TEXT
         author: "Valdemar Vreeman",
         title: "Todo's",
+
+        // VALUES 
+        // newTodoName: 'asdasd',
+
         todos: [
           {
             id: 1,
             text: 'Making a cup of coffee',
-            checked: true
+            checked: false,
+            update: false,
           }, 
           {
             id: 2,
             text: 'Making an VueJS todo app',
-            checked: false
+            checked: false,
+            update: false,
           }, 
           {
             id: 3,
             text: 'Pusblishing graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final',
-            checked: false
+            checked: false,
+            update: false,
           },
           {
             id: 4,
             text: 'Walk a couple miles',
-            checked: false
+            checked: false,
+            update: false,
           } 
-        ]
+        ],
+
+        amountTodos: this.todos,
       }
     },
     methods: {
-
-      updateTitle: (newTitle) => {
-        this.title = newTitle;
-      },
-
-      check: (id) => {
-        // alert(id);
-        alert('clicked ' + id);
-        // const array = this.todos;
-
-        // array.forEach(element => {
-        //   if(id === element.id) {
-        //     this.todos[id].checked === !this.todos[id].checked;
-        //   }          
-        // });
-      },
-
-      changeTitle: () => {
-        this.header = 'Todo app';
-      },
-
-      deleteTodo: (id, amount) => {
-        amount === '' ? 1 : amount;
-
-        alert('clicked');
-
-        console.log('Delete array object on position ' + id);
-        console.log(this.todos);
-        console.log(amount);
-
-        return (this.todos.splice(id, amount));
+      // WORKING!!
+      addTodo: function() {
+        const array = this.todos;
         
-        // console.log(this.todos);
+        const element = document.getElementById('newTodoNameInputElement').value; 
+
+        array.push({
+          text: element,
+          checked: false,
+          update: false,
+        })
+      },
+
+      // TODO: WORKING ON!!
+      updateTodo: function(index) {
+        const array = this.todos;
+
+        const updatedName = document.querySelector('.updateInputElement').value; 
+
+        array[index].text = updatedName;
+
+        alert(updatedName);
+
+        return array[index].update = !array[index].update;
+      },
+
+      // WORKING!!
+      deleteTodo: function(element) {
+  	    alert("clicked: " + element);
+        const id = element;
+        const array = this.todos;
+        
+
+        if(id === Number || id !== isNaN) {
+          // alert('clicked' + id);
+          return (array.splice(id, 1));
+        } else {
+          return null;
+        }
       }
     },
+
+    // WORKING!!
+      checkTodo: function(element) {
+        const id = element;
+        const array = this.todos;
+
+        if(id === Number || id !== isNaN) {
+          // alert('clicked' + id);
+          return (array[id].checked = !array[id].checked);
+        } else {
+          return null;
+        }
+      },
     
   }
 </script>
@@ -135,4 +179,5 @@
       width: 90% !important;
     }
   }
+
 </style>
