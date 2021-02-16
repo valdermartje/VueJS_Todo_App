@@ -1,45 +1,41 @@
 <template>
 <!-- THIS IS A TEMPLATE FOR THE TODO CARD -->
-    <div class="card" :key="index">
+    <div class="card" :key="index" draggable="false">
         <div class="card-container">
             <div class="content">
+                {{index + 1}}.
                 <div v-on:click="checkTodo(index)">
                     <input type="checkbox" class="check-todo" :checked="checked" />
                 </div>
-                    <span 
+                    <span  
+                        v-on:click="checkTodo(index)"
                         class="description" 
                         :style="[
                             checked === true ? 'text-decoration: line-through': 'none',
                             update === true ? 'display: none' : 'display: block'
                         ]"    
-                        v-on:click="checkTodo(index)"
                     > 
                         {{ todo }} 
                     </span>
 
                 <input 
-                    class="updateInputElement"
+                    :id="'updateInputElement'+ index"
                     type="text" 
-                    :value="todo" 
+                    :value="todos"
                     :style="update === true ? 'display: block' : 'display: none'"  
                 />
             </div>
             <div class="options">
                 <div class="edit-save">
                     <div class="edit" :style="update === true ? 'display: none' : 'display: block'" v-on:click="updateTodo(index)">
-                        <img src="./../assets/edit.svg" alt="Edit your todo icon" draggable="false">
+                        <Image icon="edit" alt="Edit your todo icon" />
                     </div>
                     <div class="save" :style="update === true ? 'display: block' : 'display: none'" v-on:click="updateTodo(index)">
-                        <img src="./../assets/save.svg" alt="Save your todo icon" draggable="false">
+                        <Image icon="save" alt="Save your todo icon" />
                     </div>
                 </div>
                 <div class="delete" v-on:click="deleteTodo(index)">
-                    <!-- <Image src="./../assets/delete.svg" alt="Delete your todo icon" v-on:click="greet(index)" /> -->
-                    <img 
-                        src="./../assets/delete.svg" 
-                        alt="Delete your todo icon" 
-                        draggable="false" 
-                    />
+                    <Image icon="delete" alt="Delete your todo icon" />
                 </div>
             </div>
         </div>
@@ -48,12 +44,12 @@
 
 <script>
 
-// import Image from './Image';
+import Image from './Image';
 
 export default {
     name: 'Todo',
     components: {
-        // Image
+        Image
     },
     props: {
         todo: String,

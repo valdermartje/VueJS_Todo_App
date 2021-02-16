@@ -1,14 +1,14 @@
 <template>
     <!-- TEMPLATE FOR THE IMAGE -->
-    <img :src="src" :alt="alt" draggable="false">
-    <!-- <span>{{src}}</span> -->
+    <img :src="require('./../assets/' + icon + '.svg')" :alt="alt" draggable="false">
+
 </template>
 
 <script>
 export default {
     name: 'Image',
     props: {
-        src: String,
+        icon: String,
         alt: String
     }
 }

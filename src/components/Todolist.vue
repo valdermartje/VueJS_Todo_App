@@ -4,6 +4,7 @@
       <Todo 
         :todo="todo.text" 
         :index="index" 
+
         :checked="todo.checked"
       
         :update="todo.update"
@@ -24,11 +25,8 @@ import Todo from './Todo'
 export default {
     name: 'Todolist',
     props: {
-        todos: Array,
-
-        // update: Boolean,
+        todos: Object,
         checkTodo: Function,
-
         updateTodo: Function,
         deleteTodo: Function
     },

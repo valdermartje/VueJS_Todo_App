@@ -1,18 +1,16 @@
 <template>
-<!-- TEMPLATE FOR THE WHOLE APP -->
+
+  <!-- TEMPLATE FOR THE WHOLE APP -->
   <div class="container">
     <Header 
       :title="title" 
     />
     <Menu 
-      :checkedTodos="checkedTodos"
+      :todos="todos"
       :addTodo="addTodo" 
-      :amountTodos="amountTodos"
     />
-      <!-- :newTodoName="this.newTodoName" -->
     <Todolist 
       :todos="todos" 
-
       :checkTodo="checkTodo" 
       :updateTodo="updateTodo"
       :deleteTodo="deleteTodo" 
@@ -25,6 +23,7 @@
 </template>
 
 <script>
+  // COMPONENT IMPORTS
   import Header from './components/Header';
   import Menu from './components/Menu';
   import Todolist from './components/Todolist';
@@ -42,10 +41,7 @@
       return {
         // APPLICATION TEXT
         author: "Valdemar Vreeman",
-        title: "Todo's",
-
-        // VALUES 
-        // newTodoName: 'asdasd',
+        title: "Todo list",
 
         todos: [
           {
@@ -73,68 +69,67 @@
             update: false,
           } 
         ],
-
-        amountTodos: this.todos,
       }
     },
     methods: {
       // WORKING!!
-      // TODO: MAKE THIS WITH VUE EVENTS
-      addTodo: function() {
-        const array = this.todos;
-        
-        const element = document.getElementById('newTodoNameInputElement').value; 
-
-        array.push({
-          text: element,
-          checked: false,
-          update: false,
-        })
-      },
-
-      // TODO: WORKING ON!!
-      // TODO: MAKE THIS FIRST
-      updateTodo: function(index) {
-        const array = this.todos;
-
-        const updatedName = document.querySelector('.updateInputElement').value; 
-
-        array[index].text = updatedName;
-
-        alert(updatedName);
-
-        return array[index].update = !array[index].update;
-      },
-
-      // WORKING!!
-      deleteTodo: function(element) {
-  	    alert("clicked: " + element);
-        const id = element;
-        const array = this.todos;
-        
-
-        if(id === Number || id !== isNaN) {
-          // alert('clicked' + id);
-          return (array.splice(id, 1));
-        } else {
-          return null;
-        }
-      }
-    },
-
-    // WORKING!!
       checkTodo: function(element) {
         const id = element;
         const array = this.todos;
 
         if(id === Number || id !== isNaN) {
-          // alert('clicked' + id);
           return (array[id].checked = !array[id].checked);
         } else {
           return null;
         }
       },
     
+      // WORKING!!
+      // TODO: MAKE THIS WITH VUE EVENTS
+      addTodo: function() {
+        const array = this.todos;
+        const element = document.getElementById('newTodoNameInputElement'); 
+
+        if(element.value !== '' || element.value.length !== 0) {
+          array.push({
+            text: element.value,
+            checked: false,
+            update: false,
+          })
+          } else {
+            return null;
+        }
+        
+        element.value = ""; 
+      },
+
+      // TODO: WORKING ON!!
+      updateTodo: function(element) {
+        const array = this.todos;
+        array[element].update = !array[element].update;
+
+        let updatedInputElement = document.getElementById('updateInputElement'+array[element]).value; 
+
+        console.log(array[element].text);
+
+        // array[element].text = updatedInputElement.value;
+        array[element].text = updatedInputElement;
+        console.log(updatedInputElement._value);
+
+      },
+
+      // WORKING!!
+      deleteTodo: function(element) {
+        const id = element;
+        const array = this.todos;
+
+        if(id === Number || id !== isNaN) {
+          return array.splice(id, 1);
+        } else {
+          return null;
+        }
+      }
+    },
   }
 </script>
 

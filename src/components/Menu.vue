@@ -1,15 +1,13 @@
 <template>
     <nav class="submenu">
-        <!-- ({{ checkedTodos.toString() }}) -->
         <div class="total">
-            <span>{{amountTodos}} todos</span>
+            <span>{{todos.length}} {{ todos.length !== 1 ? " todo's" : "todo"}}</span>
         </div>
         <div class="add">
             <input type="text" id="newTodoNameInputElement" value="" />
             
             <div v-on:click="addTodo()">
-                <!-- <Image src="./../assets/add.svg" alt="Add todo button" /> -->
-                <img src="./../assets/add.svg" alt="Delete your todo icon" draggable="false">
+                <Image icon="add" alt="Add todo icon" />
             </div>
         </div>
     </nav>
@@ -17,13 +15,13 @@
 
 <script>
 
-// import Image from './Image';
+import Image from './Image';
 
 export default {
     name: 'Menu',
-    // components: {
-    //     Image
-    // },
+    components: {
+        Image
+    },
     data: () => {
         return {
             todoName: '',
@@ -31,18 +29,9 @@ export default {
     },
 
     props: {
-        // newTodoName: String,
-        
+        todos: Object,
         addTodo: Function,
-        checkedTodos: Function
     },
-
-    // methods: {
-    //     giveTodoName: function(event) {
-    //         this.todoName = event.target.value;
-    //         this.$emit('newTodoName', this.message);
-    //     }
-    // }
 }
 </script>
 
