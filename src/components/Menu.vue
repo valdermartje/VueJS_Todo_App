@@ -1,7 +1,8 @@
 <template>
     <nav class="submenu">
         <div class="total">
-            <span>{{todos.length}} {{ todos.length !== 1 ? " todo's" : "todo"}}</span>
+            <!-- {{console.log( typeof totalTodos)}} -->
+            <!-- <span>{{todos.length}} {{ todos.length !== 1 ? " todo's" : "todo"}}</span> -->
         </div>
         <div class="add">
             <input type="text" id="newTodoNameInputElement" value="" />
@@ -22,14 +23,13 @@ export default {
     components: {
         Image
     },
-    data: () => {
-        return {
-            todoName: '',
+    computed: {
+        totalTodos () {
+            return this.$store.state.todos
         }
     },
-
     props: {
-        todos: Object,
+        // todos: Object,
         addTodo: Function,
     },
 }

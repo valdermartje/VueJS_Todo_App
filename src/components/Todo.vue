@@ -21,7 +21,7 @@
                 <input 
                     :id="'updateInputElement'+ index"
                     type="text" 
-                    :value="todos"
+                    :value="todo"
                     :style="update === true ? 'display: block' : 'display: none'"  
                 />
             </div>

@@ -1,17 +1,17 @@
 <template>
     <div>
-        <h1> {{ title }} </h1>
+        <h1> {{ header }} </h1>
     </div>    
 </template>
 
 <script>
 export default {
     name: 'Header',
-    props: {
-        title: {
-            type: String
+    computed: {
+        header () {
+            return this.$store.state.header
         }
-    },
+    }
 }
 </script>
 

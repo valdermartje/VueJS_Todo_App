@@ -14,7 +14,7 @@
         :deleteTodo="deleteTodo"
       />
     </div>
-    <span>{{ todos.length === 0 ? "+ Add a Todo" : "" }}</span>
+    <!-- <span>{{ todos.length === 0 ? "+ Add a Todo" : "" }}</span> -->
 
 </template>
 
@@ -25,10 +25,14 @@ import Todo from './Todo'
 export default {
     name: 'Todolist',
     props: {
-        todos: Object,
         checkTodo: Function,
         updateTodo: Function,
         deleteTodo: Function
+    },
+    computed: {
+        todos () {
+            return this.$store.state.todos
+        }
     },
     components: {
         Todo

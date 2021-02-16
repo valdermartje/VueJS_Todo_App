@@ -2,22 +2,17 @@
 
   <!-- TEMPLATE FOR THE WHOLE APP -->
   <div class="container">
-    <Header 
-      :title="title" 
-    />
+    <Header />
     <Menu 
-      :todos="todos"
       :addTodo="addTodo" 
     />
+      <!-- :todos="todos" -->
     <Todolist 
-      :todos="todos" 
       :checkTodo="checkTodo" 
       :updateTodo="updateTodo"
       :deleteTodo="deleteTodo" 
     />
-    <Footer 
-      :author="author" 
-    />
+    <Footer />
 
   </div>
 </template>
@@ -30,46 +25,12 @@
   import Footer from './components/Footer';
 
   export default {
-    name: 'App',
+    name: 'Todo App',
     components: {
       Header,
       Menu,
       Todolist,
-      Footer
-    },
-    data () {
-      return {
-        // APPLICATION TEXT
-        author: "Valdemar Vreeman",
-        title: "Todo list",
-
-        todos: [
-          {
-            id: 1,
-            text: 'Making a cup of coffee',
-            checked: false,
-            update: false,
-          }, 
-          {
-            id: 2,
-            text: 'Making an VueJS todo app',
-            checked: false,
-            update: false,
-          }, 
-          {
-            id: 3,
-            text: 'Pusblishing graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final',
-            checked: false,
-            update: false,
-          },
-          {
-            id: 4,
-            text: 'Walk a couple miles',
-            checked: false,
-            update: false,
-          } 
-        ],
-      }
+      Footer,
     },
     methods: {
       // WORKING!!
@@ -176,5 +137,33 @@
       width: 90% !important;
     }
   }
+/* 
+
+        // todos: [
+        //   {
+        //     id: 1,
+        //     text: 'Making a cup of coffee',
+        //     checked: false,
+        //     update: false,
+        //   }, 
+        //   {
+        //     id: 2,
+        //     text: 'Making an VueJS todo app',
+        //     checked: false,
+        //     update: false,
+        //   }, 
+        //   {
+        //     id: 3,
+        //     text: 'Pusblishing graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final',
+        //     checked: false,
+        //     update: false,
+        //   },
+        //   {
+        //     id: 4,
+        //     text: 'Walk a couple miles',
+        //     checked: false,
+        //     update: false,
+        //   } 
+        // ], */
 
 </style>
