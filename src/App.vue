@@ -1,94 +1,96 @@
 <template>
-<!-- TEMPLATE FOR THE WHOLE APP -->
-  <div class="container">
 
-    <Header :title="title" v-on:changeTitle="updateTitle($event)" />
-    <Menu />
-    <Todolist :todos="todos" @click="check" />
-    <Footer :author="author" />
+  <!-- TEMPLATE FOR THE WHOLE APP -->
+  <div class="container">
+    <Header />
+    <Menu 
+      :addTodo="addTodo" 
+    />
+      <!-- :todos="todos" -->
+    <Todolist 
+      :checkTodo="checkTodo" 
+      :updateTodo="updateTodo"
+      :deleteTodo="deleteTodo" 
+    />
+    <Footer />
 
   </div>
 </template>
 
 <script>
+  // COMPONENT IMPORTS
   import Header from './components/Header';
   import Menu from './components/Menu';
   import Todolist from './components/Todolist';
   import Footer from './components/Footer';
 
   export default {
-    name: 'App',
+    name: 'Todo App',
     components: {
       Header,
       Menu,
       Todolist,
-      Footer
-    },
-    data () {
-      return {
-        author: "Valdemar Vreeman",
-        title: "Todo's",
-        todos: [
-          {
-            id: 1,
-            text: 'Making a cup of coffee',
-            checked: true
-          }, 
-          {
-            id: 2,
-            text: 'Making an VueJS todo app',
-            checked: false
-          }, 
-          {
-            id: 3,
-            text: 'Pusblishing graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final',
-            checked: false
-          },
-          {
-            id: 4,
-            text: 'Walk a couple miles',
-            checked: false
-          } 
-        ]
-      }
+      Footer,
     },
     methods: {
+      // WORKING!!
+      checkTodo: function(element) {
+        const id = element;
+        const array = this.todos;
 
-      updateTitle: (newTitle) => {
-        this.title = newTitle;
+        if(id === Number || id !== isNaN) {
+          return (array[id].checked = !array[id].checked);
+        } else {
+          return null;
+        }
       },
+    
+      // WORKING!!
+      // TODO: MAKE THIS WITH VUE EVENTS
+      addTodo: function() {
+        const array = this.todos;
+        const element = document.getElementById('newTodoNameInputElement'); 
 
-      check: (id) => {
-        // alert(id);
-        alert('clicked ' + id);
-        // const array = this.todos;
-
-        // array.forEach(element => {
-        //   if(id === element.id) {
-        //     this.todos[id].checked === !this.todos[id].checked;
-        //   }          
-        // });
-      },
-
-      changeTitle: () => {
-        this.header = 'Todo app';
-      },
-
-      deleteTodo: (id, amount) => {
-        amount === '' ? 1 : amount;
-
-        alert('clicked');
-
-        console.log('Delete array object on position ' + id);
-        console.log(this.todos);
-        console.log(amount);
-
-        return (this.todos.splice(id, amount));
+        if(element.value !== '' || element.value.length !== 0) {
+          array.push({
+            text: element.value,
+            checked: false,
+            update: false,
+          })
+          } else {
+            return null;
+        }
         
-        // console.log(this.todos);
+        element.value = ""; 
+      },
+
+      // TODO: WORKING ON!!
+      updateTodo: function(element) {
+        const array = this.todos;
+        array[element].update = !array[element].update;
+
+        let updatedInputElement = document.getElementById('updateInputElement'+array[element]).value; 
+
+        console.log(array[element].text);
+
+        // array[element].text = updatedInputElement.value;
+        array[element].text = updatedInputElement;
+        console.log(updatedInputElement._value);
+
+      },
+
+      // WORKING!!
+      deleteTodo: function(element) {
+        const id = element;
+        const array = this.todos;
+
+        if(id === Number || id !== isNaN) {
+          return array.splice(id, 1);
+        } else {
+          return null;
+        }
       }
     },
-    
   }
 </script>
 
@@ -135,4 +137,33 @@
       width: 90% !important;
     }
   }
+/* 
+
+        // todos: [
+        //   {
+        //     id: 1,
+        //     text: 'Making a cup of coffee',
+        //     checked: false,
+        //     update: false,
+        //   }, 
+        //   {
+        //     id: 2,
+        //     text: 'Making an VueJS todo app',
+        //     checked: false,
+        //     update: false,
+        //   }, 
+        //   {
+        //     id: 3,
+        //     text: 'Pusblishing graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final',
+        //     checked: false,
+        //     update: false,
+        //   },
+        //   {
+        //     id: 4,
+        //     text: 'Walk a couple miles',
+        //     checked: false,
+        //     update: false,
+        //   } 
+        // ], */
+
 </style>

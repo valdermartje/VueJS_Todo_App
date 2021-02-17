@@ -7,8 +7,10 @@
 <script>
 export default {
     name: 'Footer',
-    props: {
-        author: String,
+    computed: {
+        author () {
+            return this.$store.state.author;
+        }
     }
 }
 </script>

@@ -1,14 +1,20 @@
 <template>
     <!-- TEMPLATE FOR THE TODOS -->
-    <div v-for="(todo) in todos" :key="todo.id">
+    <div v-for="(todo, index) in todos" :key="index">
       <Todo 
-        :deleteTodo="deleteTodo" 
         :todo="todo.text" 
-        :index="todo.id" 
-        :check="check" 
-        v-on:click="check(todo.id)" 
+        :index="index" 
+
+        :checked="todo.checked"
+      
+        :update="todo.update"
+        
+        :checkTodo="checkTodo"
+        :updateTodo="updateTodo"
+        :deleteTodo="deleteTodo"
       />
     </div>
+    <!-- <span>{{ todos.length === 0 ? "+ Add a Todo" : "" }}</span> -->
 
 </template>
 
@@ -19,7 +25,14 @@ import Todo from './Todo'
 export default {
     name: 'Todolist',
     props: {
-        todos: Array,
+        checkTodo: Function,
+        updateTodo: Function,
+        deleteTodo: Function
+    },
+    computed: {
+        todos () {
+            return this.$store.state.todos
+        }
     },
     components: {
         Todo
@@ -28,5 +41,10 @@ export default {
 </script>
 
 <style scoped>
-
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 </style>

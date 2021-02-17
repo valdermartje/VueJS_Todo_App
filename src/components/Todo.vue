@@ -1,28 +1,41 @@
 <template>
 <!-- THIS IS A TEMPLATE FOR THE TODO CARD -->
-    <div class="card" :key="index" v-on:click="checked()">
+    <div class="card" :key="index" draggable="false">
         <div class="card-container">
             <div class="content">
-                <input type="checkbox" class="check-todo" :check="check" />
-                <span class="todo-description" :style="checked === true ? 'text-decoration: line-through': 'none'">{{todo}}</span> <!-- style="text-decoration: line-through;" -->
+                {{index + 1}}.
+                <div v-on:click="checkTodo(index)">
+                    <input type="checkbox" class="check-todo" :checked="checked" />
+                </div>
+                    <span  
+                        v-on:click="checkTodo(index)"
+                        class="description" 
+                        :style="[
+                            checked === true ? 'text-decoration: line-through': 'none',
+                            update === true ? 'display: none' : 'display: block'
+                        ]"    
+                    > 
+                        {{ todo }} 
+                    </span>
+
+                <input 
+                    :id="'updateInputElement'+ index"
+                    type="text" 
+                    :value="todo"
+                    :style="update === true ? 'display: block' : 'display: none'"  
+                />
             </div>
             <div class="options">
                 <div class="edit-save">
-                    <div class="edit" style="display: block">
-                        <img src="./../assets/edit.svg" alt="Edit your todo icon" draggable="false">
+                    <div class="edit" :style="update === true ? 'display: none' : 'display: block'" v-on:click="updateTodo(index)">
+                        <Image icon="edit" alt="Edit your todo icon" />
                     </div>
-                    <div class="save" style="display: none">
-                        <img src="./../assets/save.svg" alt="Save your todo icon" draggable="false">
+                    <div class="save" :style="update === true ? 'display: block' : 'display: none'" v-on:click="updateTodo(index)">
+                        <Image icon="save" alt="Save your todo icon" />
                     </div>
                 </div>
-                <div class="delete">
-                    <!-- <Image src="./../assets/delete.svg" alt="Delete your todo icon" v-on:click="greet(index)" /> -->
-                    <img 
-                        src="./../assets/delete.svg" 
-                        alt="Delete your todo icon" 
-                        draggable="false" 
-                        v-on:click="greet(index)" 
-                    />
+                <div class="delete" v-on:click="deleteTodo(index)">
+                    <Image icon="delete" alt="Delete your todo icon" />
                 </div>
             </div>
         </div>
@@ -31,26 +44,23 @@
 
 <script>
 
-// import Image from './Image';
+import Image from './Image';
 
 export default {
     name: 'Todo',
     components: {
-        // Image
+        Image
     },
     props: {
         todo: String,
         index: Number,
+
+        update: Boolean,
         checked: Boolean,
 
-        deleteTodo: {
-            type: Function
-        }
-    },
-    methods: {
-        greet: (content) => {
-            alert(content);
-        }
+        checkTodo: Function,
+        updateTodo: Function,
+        deleteTodo: Function
     }
 }
 
@@ -90,6 +100,11 @@ export default {
     .card .content {
         display: flex;
         align-items: center;
+    }
+
+    .card .content input[type="checkbox"],
+    .card .content .description {
+        cursor: pointer;
     }
 
     .card .content span {
