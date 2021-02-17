@@ -1,13 +1,12 @@
 <template>
     <nav class="submenu">
         <div class="total">
-            <!-- {{console.log( typeof totalTodos)}} -->
-            <!-- <span>{{todos.length}} {{ todos.length !== 1 ? " todo's" : "todo"}}</span> -->
+            <span>{{getTodosCount}} {{ getTodosCount !== 1 ? " todo's" : "todo"}}</span>
         </div>
         <div class="add">
-            <input type="text" id="newTodoNameInputElement" value="" />
+            <input type="text" id="newTodoNameInputElement" v-model="addTodoName" />
             
-            <div v-on:click="addTodo()">
+            <div v-on:click="addTodo">
                 <Image icon="add" alt="Add todo icon" />
             </div>
         </div>
@@ -17,20 +16,37 @@
 <script>
 
 import Image from './Image';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
     name: 'Menu',
     components: {
         Image
     },
-    computed: {
-        totalTodos () {
-            return this.$store.state.todos
-        }
+    methods: {
+        // addTodo: function() {
+        //     this.$store.commit('addTodo')
+        // },
     },
-    props: {
-        // todos: Object,
-        addTodo: Function,
+    computed: {
+        ...mapState([
+            'addTodoName'
+        ]),
+        ...mapGetters([
+            'getTodosCount',
+            'getNewTodoName'
+        ]),
+
+        addTodo: {
+            get () {
+                console.log(this.addTodoName);
+                return this.addTodoName
+            },
+            set (value) {
+                console.log(value);
+                this.$store.commit('addTodo', value)
+            }
+        },
     },
 }
 </script>

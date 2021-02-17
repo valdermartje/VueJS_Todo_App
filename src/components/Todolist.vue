@@ -2,25 +2,19 @@
     <!-- TEMPLATE FOR THE TODOS -->
     <div v-for="(todo, index) in todos" :key="index">
       <Todo 
-        :todo="todo.text" 
-        :index="index" 
-
-        :checked="todo.checked"
-      
-        :update="todo.update"
-        
-        :checkTodo="checkTodo"
-        :updateTodo="updateTodo"
-        :deleteTodo="deleteTodo"
+        :data="todo"
       />
+
     </div>
-    <!-- <span>{{ todos.length === 0 ? "+ Add a Todo" : "" }}</span> -->
+    <span>{{ getTodosCount === 0 ? "+ Add a Todo" : "" }}</span>
 
 </template>
 
 <script>
 
 import Todo from './Todo'
+import { mapGetters, mapState } from 'vuex'
+
 
 export default {
     name: 'Todolist',
@@ -30,9 +24,14 @@ export default {
         deleteTodo: Function
     },
     computed: {
-        todos () {
-            return this.$store.state.todos
-        }
+
+        ...mapState([
+            'todos'
+        ]),
+
+        ...mapGetters([
+            'getTodosCount'
+        ])
     },
     components: {
         Todo

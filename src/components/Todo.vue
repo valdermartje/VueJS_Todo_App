@@ -1,42 +1,60 @@
 <template>
 <!-- THIS IS A TEMPLATE FOR THE TODO CARD -->
-    <div class="card" :key="index" draggable="false">
+    <div class="card"  draggable="false">
         <div class="card-container">
             <div class="content">
-                {{index + 1}}.
-                <div v-on:click="checkTodo(index)">
-                    <input type="checkbox" class="check-todo" :checked="checked" />
+                
+                <div class="tag">
+                    {{ '#' + data.id }}
                 </div>
-                    <span  
-                        v-on:click="checkTodo(index)"
-                        class="description" 
-                        :style="[
-                            checked === true ? 'text-decoration: line-through': 'none',
-                            update === true ? 'display: none' : 'display: block'
-                        ]"    
-                    > 
-                        {{ todo }} 
-                    </span>
 
-                <input 
-                    :id="'updateInputElement'+ index"
+                <div v-on:click="checkTodo">
+                    <input type="checkbox" class="check-todo" :checked="data.checked" />
+                </div>
+
+                <span  
+                    v-on:click="checkTodo"
+                    class="description" 
+                    v-if="!update"
+                    :style="[
+                        data.checked === true ? 'text-decoration: line-through': 'none',
+                    ]"    
+                > 
+                    {{ data.todo }} 
+                </span>
+
+                <input
+                    v-else 
+                    :id="'updateInputElement'+ data.index"
                     type="text" 
-                    :value="todo"
-                    :style="update === true ? 'display: block' : 'display: none'"  
+                    v-model="updateTodo"
                 />
             </div>
             <div class="options">
-                <div class="edit-save">
-                    <div class="edit" :style="update === true ? 'display: none' : 'display: block'" v-on:click="updateTodo(index)">
-                        <Image icon="edit" alt="Edit your todo icon" />
-                    </div>
-                    <div class="save" :style="update === true ? 'display: block' : 'display: none'" v-on:click="updateTodo(index)">
-                        <Image icon="save" alt="Save your todo icon" />
-                    </div>
+                <div class="edit" 
+                    v-if="!update">
+                    <ActionIcon
+                        icon="edit" 
+                        title="edit" 
+                        alt="edit icon" 
+                        v-on:click="toggleUpdate"
+                    />
                 </div>
-                <div class="delete" v-on:click="deleteTodo(index)">
-                    <Image icon="delete" alt="Delete your todo icon" />
+                <div class="save" 
+                    v-else>
+                    <ActionIcon 
+                        icon="save"
+                        title="save" 
+                        alt="Save your todo icon"                          
+                        v-on:click="toggleUpdate"
+                    />
                 </div>
+                <ActionIcon 
+                    icon="delete"
+                    title="delete" 
+                    alt="Save your todo icon" 
+                    v-on:click="deleteTodo"
+                />
             </div>
         </div>
     </div>
@@ -44,23 +62,44 @@
 
 <script>
 
-import Image from './Image';
+import ActionIcon from './ActionIcon.vue';
 
 export default {
     name: 'Todo',
-    components: {
-        Image
+    data: function () {
+        return {
+            update: false
+        }
     },
     props: {
-        todo: String,
-        index: Number,
-
-        update: Boolean,
-        checked: Boolean,
-
-        checkTodo: Function,
-        updateTodo: Function,
-        deleteTodo: Function
+        data: Object
+    },
+    components: {
+        ActionIcon
+    },
+    computed: {
+        updateTodo: {
+            get () {
+                return this.data.todo
+            },
+            set (value) {
+                this.$store.commit('updateTodo', {
+                    updatedAt: this.data.id - 1,
+                    updatedTodoName: value
+                })
+            }
+        }
+    },
+    methods: {
+        checkTodo: function() {
+            this.$store.commit('checkTodo', this.data.id)
+        },
+        deleteTodo: function() {
+            this.$store.commit('deleteTodo', this.data.id)
+        },
+        toggleUpdate: function () {
+            this.update = !this.update
+        }
     }
 }
 
@@ -84,6 +123,13 @@ export default {
 
     .card span {
         text-align: left;
+    }
+
+    .card .tag {
+        color: #cecece;
+        font-weight: light;
+        margin-right: 40px;
+        user-select: none;
     }
 
     .card-container {
