@@ -16,11 +16,9 @@
                     v-on:click="checkTodo"
                     class="description" 
                     v-if="!update"
-                    :style="[
-                        data.checked === true ? 'text-decoration: line-through': 'none',
-                    ]"    
+                    :style="[data.checked === true ? 'text-decoration: line-through': 'none']"    
                 > 
-                    {{ data.todo }} 
+                    {{ data.todo + " " + data.checked }} 
                 </span>
 
                 <input

@@ -5,8 +5,7 @@
         </div>
         <div class="add">
             <input type="text" id="newTodoNameInputElement" v-model="addTodoName" />
-            
-            <div v-on:click="addTodo">
+            <div v-on:click="add">
                 <Image icon="add" alt="Add todo icon" />
             </div>
         </div>
@@ -23,31 +22,26 @@ export default {
     components: {
         Image
     },
-    methods: {
-        // addTodo: function() {
-        //     this.$store.commit('addTodo')
-        // },
+    data: () => {
+        return {
+            addTodoName: ''
+        }
     },
     computed: {
         ...mapState([
-            'addTodoName'
+            'todos'
         ]),
         ...mapGetters([
             'getTodosCount',
             'getNewTodoName'
-        ]),
-
-        addTodo: {
-            get () {
-                console.log(this.addTodoName);
-                return this.addTodoName
-            },
-            set (value) {
-                console.log(value);
-                this.$store.commit('addTodo', value)
-            }
-        },
+        ])
     },
+    methods: {
+        add: function() {
+            this.$store.commit('addTodo', this.addTodoName);
+            this.addTodoName = '';
+        },
+    }
 }
 </script>
 
