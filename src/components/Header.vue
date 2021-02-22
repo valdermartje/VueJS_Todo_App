@@ -5,12 +5,19 @@
 </template>
 
 <script>
+
+import { mapState, mapGetters } from 'vuex';
+
 export default {
     name: 'Header',
     computed: {
-        header () {
-            return this.$store.state.header
-        }
+        ...mapState([
+            'header',
+            'todos'
+        ]),
+        ...mapGetters([
+            'reverseHeader'
+        ])
     }
 }
 </script>

@@ -1,16 +1,19 @@
 <template>
     <footer>
-        <span>Made with love by <b>{{author}}</b></span>    
+        <span>Made with love by <b>{{getAuthor}}</b></span>    
     </footer>    
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
+
 export default {
     name: 'Footer',
     computed: {
-        author () {
-            return this.$store.state.author;
-        }
+        ...mapGetters([
+            'getAuthor'
+        ])
     }
 }
 </script>

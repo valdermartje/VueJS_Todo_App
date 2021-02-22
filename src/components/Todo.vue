@@ -1,131 +1,184 @@
 <template>
-<!-- THIS IS A TEMPLATE FOR THE TODO CARD -->
-    <div class="card" :key="index" draggable="false">
-        <div class="card-container">
-            <div class="content">
-                {{index + 1}}.
-                <div v-on:click="checkTodo(index)">
-                    <input type="checkbox" class="check-todo" :checked="checked" />
-                </div>
-                    <span  
-                        v-on:click="checkTodo(index)"
-                        class="description" 
-                        :style="[
-                            checked === true ? 'text-decoration: line-through': 'none',
-                            update === true ? 'display: none' : 'display: block'
-                        ]"    
-                    > 
-                        {{ todo }} 
-                    </span>
+  {{
+    // TODO: MAKE DRAGDROP FUNCTIONS FOR CARD ELEMENT
+  }}
 
-                <input 
-                    :id="'updateInputElement'+ index"
-                    type="text" 
-                    :value="todo"
-                    :style="update === true ? 'display: block' : 'display: none'"  
-                />
-            </div>
-            <div class="options">
-                <div class="edit-save">
-                    <div class="edit" :style="update === true ? 'display: none' : 'display: block'" v-on:click="updateTodo(index)">
-                        <Image icon="edit" alt="Edit your todo icon" />
-                    </div>
-                    <div class="save" :style="update === true ? 'display: block' : 'display: none'" v-on:click="updateTodo(index)">
-                        <Image icon="save" alt="Save your todo icon" />
-                    </div>
-                </div>
-                <div class="delete" v-on:click="deleteTodo(index)">
-                    <Image icon="delete" alt="Delete your todo icon" />
-                </div>
-            </div>
+  <!-- THIS IS A TEMPLATE FOR THE TODO CARD -->
+  <div class="card" draggable="true" v-on:click="dragDropTodoCard()">
+    <div class="card-container">
+      <div class="content">
+        <div class="tag">
+          {{ "#" + indexTodo }}
         </div>
+
+        <div v-on:click="checkTodo">
+          <input type="checkbox" class="check-todo" :checked="data.checked" />
+        </div>
+
+        <span
+          v-on:click="checkTodo"
+          class="description"
+          v-if="!update"
+          :style="[
+            data.checked === true ? 'text-decoration: line-through' : 'none',
+          ]"
+        >
+          {{ data.todo + " " + data.checked }}
+        </span>
+
+        <input
+          v-else
+          :id="'updateInputElement' + data.index"
+          type="text"
+          v-model="updateTodo"
+        />
+      </div>
+      <div class="options">
+        <div class="edit" v-if="!update">
+          <ActionIcon
+            icon="edit"
+            title="edit"
+            alt="edit icon"
+            v-on:click="toggleUpdate"
+          />
+        </div>
+        <div class="save" v-else>
+          <ActionIcon
+            icon="save"
+            title="save"
+            alt="Save your todo icon"
+            v-on:click="toggleUpdate"
+          />
+        </div>
+        <ActionIcon
+          icon="delete"
+          title="delete"
+          alt="Save your todo icon"
+          v-on:click="deleteTodo"
+        />
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-
-import Image from './Image';
+import ActionIcon from "./ActionIcon.vue";
 
 export default {
-    name: 'Todo',
-    components: {
-        Image
+  name: "Todo",
+  data: function () {
+    return {
+      update: false,
+    };
+  },
+  props: {
+    data: Object,
+    index: Number,
+  },
+  components: {
+    ActionIcon,
+  },
+  computed: {
+    indexTodo: function () {
+      return this.index + 1;
     },
-    props: {
-        todo: String,
-        index: Number,
 
-        update: Boolean,
-        checked: Boolean,
+    updateTodo: {
+      get() {
+        return this.data.todo;
+      },
+      set(value) {
+        this.$store.commit("updateTodo", {
+          updatedAt: this.data.id,
+          updatedTodoName: value,
+        });
+      },
+    },
+  },
+  methods: {
+    checkTodo: function () {
+      this.$store.commit("checkTodo", this.data.id);
+    },
+    deleteTodo: function () {
+      this.$store.commit("deleteTodo", this.data.id);
+    },
+    toggleUpdate: function () {
+      this.update = !this.update;
+    },
 
-        checkTodo: Function,
-        updateTodo: Function,
-        deleteTodo: Function
-    }
-}
-
+    dragDropTodoCard: function () {
+      //   alert(this.data.id);
+    },
+  },
+};
 </script>
 
 <style scoped>
-    /* style for the todo card */
-    .card {
-        position: relative;
-        width: initial;
-        height: inherit;
-        display: block;
-        margin: 0 auto 20px;
-        padding: 20px;
+/* style for the todo card */
+.card {
+  position: relative;
+  width: initial;
+  height: inherit;
+  display: block;
+  margin: 0 auto 20px;
+  padding: 20px;
 
-        background: #fff;
-        border-radius: 2px;
-        box-shadow: -5px -5px 5px 0 #f8f8f8,
-                    10px 10px 10px 0 #f0f0f0;    
-    }
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: -5px -5px 5px 0 #f8f8f8, 10px 10px 10px 0 #f0f0f0;
+}
 
-    .card span {
-        text-align: left;
-    }
+.card span {
+  text-align: left;
+}
 
-    .card-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+.card .tag {
+  color: #cecece;
+  font-weight: light;
+  margin-right: 40px;
+  user-select: none;
+}
 
-    .card div {
-        position: relative;
-        z-index: 1;
-    }
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    .card .content {
-        display: flex;
-        align-items: center;
-    }
+.card div {
+  position: relative;
+  z-index: 1;
+}
 
-    .card .content input[type="checkbox"],
-    .card .content .description {
-        cursor: pointer;
-    }
+.card .content {
+  display: flex;
+  align-items: center;
+}
 
-    .card .content span {
-        max-width: 80%;
-    }
+.card .content input[type="checkbox"],
+.card .content .description {
+  cursor: pointer;
+}
 
-    .card .content input {
-        margin-right: 40px;
-    }
+.card .content span {
+  max-width: 80%;
+}
 
-    .card .options {
-        display: flex;
-    }
+.card .content input {
+  margin-right: 40px;
+}
 
-    @media (max-width: 400px) {
-        .card .card-container {
-            display: block !important;
-        }
-        .card .options {
-            display: flex;
-            justify-content: flex-end;
-        }
-    }
+.card .options {
+  display: flex;
+}
+
+@media (max-width: 400px) {
+  .card .card-container {
+    display: block !important;
+  }
+  .card .options {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
 </style>

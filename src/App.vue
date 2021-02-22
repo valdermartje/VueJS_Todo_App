@@ -1,19 +1,10 @@
 <template>
-
   <!-- TEMPLATE FOR THE WHOLE APP -->
   <div class="container">
     <Header />
-    <Menu 
-      :addTodo="addTodo" 
-    />
-      <!-- :todos="todos" -->
-    <Todolist 
-      :checkTodo="checkTodo" 
-      :updateTodo="updateTodo"
-      :deleteTodo="deleteTodo" 
-    />
+    <Menu />
+    <Todolist />
     <Footer />
-
   </div>
 </template>
 
@@ -31,66 +22,7 @@
       Menu,
       Todolist,
       Footer,
-    },
-    methods: {
-      // WORKING!!
-      checkTodo: function(element) {
-        const id = element;
-        const array = this.todos;
-
-        if(id === Number || id !== isNaN) {
-          return (array[id].checked = !array[id].checked);
-        } else {
-          return null;
-        }
-      },
-    
-      // WORKING!!
-      // TODO: MAKE THIS WITH VUE EVENTS
-      addTodo: function() {
-        const array = this.todos;
-        const element = document.getElementById('newTodoNameInputElement'); 
-
-        if(element.value !== '' || element.value.length !== 0) {
-          array.push({
-            text: element.value,
-            checked: false,
-            update: false,
-          })
-          } else {
-            return null;
-        }
-        
-        element.value = ""; 
-      },
-
-      // TODO: WORKING ON!!
-      updateTodo: function(element) {
-        const array = this.todos;
-        array[element].update = !array[element].update;
-
-        let updatedInputElement = document.getElementById('updateInputElement'+array[element]).value; 
-
-        console.log(array[element].text);
-
-        // array[element].text = updatedInputElement.value;
-        array[element].text = updatedInputElement;
-        console.log(updatedInputElement._value);
-
-      },
-
-      // WORKING!!
-      deleteTodo: function(element) {
-        const id = element;
-        const array = this.todos;
-
-        if(id === Number || id !== isNaN) {
-          return array.splice(id, 1);
-        } else {
-          return null;
-        }
-      }
-    },
+    }
   }
 </script>
 
@@ -137,33 +69,4 @@
       width: 90% !important;
     }
   }
-/* 
-
-        // todos: [
-        //   {
-        //     id: 1,
-        //     text: 'Making a cup of coffee',
-        //     checked: false,
-        //     update: false,
-        //   }, 
-        //   {
-        //     id: 2,
-        //     text: 'Making an VueJS todo app',
-        //     checked: false,
-        //     update: false,
-        //   }, 
-        //   {
-        //     id: 3,
-        //     text: 'Pusblishing graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final',
-        //     checked: false,
-        //     update: false,
-        //   },
-        //   {
-        //     id: 4,
-        //     text: 'Walk a couple miles',
-        //     checked: false,
-        //     update: false,
-        //   } 
-        // ], */
-
 </style>
