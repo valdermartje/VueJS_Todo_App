@@ -1,9 +1,7 @@
-<template>
-  {{
-    // TODO: MAKE DRAGDROP FUNCTIONS FOR CARD ELEMENT
-  }}
-
   <!-- THIS IS A TEMPLATE FOR THE TODO CARD -->
+<template>
+  <!-- make a dragdrop method on card element -->
+
   <div class="card" draggable="true" v-on:click="dragDropTodoCard()">
     <div class="card-container">
       <div class="content">
@@ -23,7 +21,7 @@
             data.checked === true ? 'text-decoration: line-through' : 'none',
           ]"
         >
-          {{ data.todo + " " + data.checked }}
+          {{ data.todo }}
         </span>
 
         <input
